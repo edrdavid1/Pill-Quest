@@ -1,0 +1,289 @@
+:root {
+    /* Пастельная палитра (светлая тема) */
+    --bg-color: #FFB7B2;
+    --card-bg: #E2F0CB;
+    --btn-bg: #B5EAD7;
+    --btn-checked: #C7CEEA;
+    --text-color: #333333;
+    --shadow-color: #000000;
+    --secondary-text: #555555;
+    --calendar-day-bg: rgba(255, 255, 255, 0.5);
+    --calendar-day-border: transparent;
+    --font-pixel: 'Press Start 2P', monospace;
+}
+
+[data-theme="dark"] {
+    /* Тёмная тема */
+    --bg-color: #2D2D2D;
+    --card-bg: #3D3D3D;
+    --btn-bg: #4A5D5A;
+    --btn-checked: #5A5E7A;
+    --text-color: #E0E0E0;
+    --shadow-color: #000000;
+    --secondary-text: #AAAAAA;
+    --calendar-day-bg: rgba(255, 255, 255, 0.1);
+    --calendar-day-border: rgba(255, 255, 255, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-pixel);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    text-transform: uppercase;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Заголовок */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 0px var(--shadow-color);
+    margin: 0 0 10px 0;
+}
+
+#currentMonthYear {
+    font-size: 0.7rem;
+    color: var(--secondary-text);
+    margin: 0;
+}
+
+/* Кнопка переключения темы */
+.theme-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: var(--btn-bg);
+    border: 3px solid var(--shadow-color);
+    padding: 8px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px var(--shadow-color);
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.theme-toggle:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px var(--shadow-color);
+}
+
+/* Блок с картинкой - без фона, большой размер */
+.image-container {
+    width: 250px;
+    height: 250px;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+/* Кнопка */
+.pill-btn-container {
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 0px;
+}
+
+#pillBtn {
+    width: 100%;
+    background-color: var(--btn-bg);
+    border: 4px solid var(--shadow-color);
+    color: var(--text-color);
+    padding: 15px 10px;
+    font-size: 0.8rem;
+    font-family: var(--font-pixel);
+    cursor: pointer;
+    box-shadow: 4px 4px 0px var(--shadow-color);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+#pillBtn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px var(--shadow-color);
+}
+
+#pillBtn:checked,
+#pillBtn:disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+#pillBtn.checked {
+    background-color: var(--btn-checked);
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+}
+
+/* Всплывающее сообщение */
+.message-popup {
+    width: 100%;
+    max-width: 350px;
+    min-height: 60px;
+    margin-bottom: 0px;
+    padding: 15px;
+    text-align: center;
+    font-size: 0.55rem;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.message-popup.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Календарь */
+.calendar-container {
+    width: 100%;
+    max-width: 350px;
+    background-color: var(--card-bg);
+    border: 4px solid var(--shadow-color);
+    padding: 15px;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 0px var(--shadow-color);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-nav {
+    background: var(--btn-bg);
+    border: 3px solid var(--shadow-color);
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    box-shadow: 2px 2px 0px var(--shadow-color);
+}
+
+.calendar-nav:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px var(--shadow-color);
+}
+
+.calendar-nav:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#calendarMonthYear {
+    font-size: 0.7rem;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+
+.weekday {
+    font-size: 0.6rem;
+    padding-bottom: 10px;
+    color: var(--secondary-text);
+}
+
+.day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    border: 2px solid var(--calendar-day-border);
+    background-color: var(--calendar-day-bg);
+    cursor: default;
+}
+
+.day.today {
+    border: 2px solid var(--shadow-color);
+    background-color: var(--card-bg);
+}
+
+.day.checked {
+    background-color: var(--btn-checked);
+    color: #fff;
+    border: 2px solid var(--shadow-color);
+    text-shadow: 1px 1px 0px #000;
+}
+
+.day.empty {
+    background: transparent;
+    border: none;
+}
+
+/* Уведомления о разрешениях */
+.notification-prompt {
+    width: 100%;
+    max-width: 350px;
+    background-color: var(--card-bg);
+    border: 4px solid var(--shadow-color);
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 4px 4px 0px var(--shadow-color);
+    display: none;
+}
+
+.notification-prompt.visible {
+    display: block;
+}
+
+.notification-prompt p {
+    font-size: 0.6rem;
+    margin: 0 0 10px 0;
+}
+
+.notification-prompt button {
+    background: var(--btn-bg);
+    border: 3px solid var(--shadow-color);
+    padding: 10px;
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px var(--shadow-color);
+    margin-right: 10px;
+}
+
+.notification-prompt button:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px var(--shadow-color);
+}
+
+/* Адаптивность */
+@media (max-width: 400px) {
+    header h1 {
+        font-size: 1.2rem;
+    }
+    
+    .image-container {
+        width: 200px;
+        height: 200px;
+    }
+}

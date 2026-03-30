@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <h1>Генератор иконок</h1>
+    <p>Откройте консоль (F12) и сохраните иконки</p>
+    <canvas id="canvas"></canvas>
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        function drawIcon(size) {
+            canvas.width = size;
+            canvas.height = size;
+            
+            const scale = size / 512;
+            
+            // Градиентный фон
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#FFB7B2');
+            gradient.addColorStop(1, '#FF9AA2');
+            ctx.fillStyle = gradient;
+            
+            // Скруглённый прямоугольник
+            const radius = 64 * scale;
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, radius);
+            ctx.fill();
+            
+            // Таблетка
+            const pillWidth = 272 * scale;
+            const pillHeight = 112 * scale;
+            const pillX = 120 * scale;
+            const pillY = 200 * scale;
+            const pillRadius = 56 * scale;
+            
+            ctx.fillStyle = '#fff';
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 8 * scale;
+            
+            ctx.beginPath();
+            ctx.roundRect(pillX, pillY, pillWidth, pillHeight, pillRadius);
+            ctx.fill();
+            ctx.stroke();
+            
+            // Разделительная линия
+            ctx.beginPath();
+            ctx.moveTo(pillX + pillWidth / 2, pillY);
+            ctx.lineTo(pillX + pillWidth / 2, pillY + pillHeight);
+            ctx.stroke();
+            
+            // Блик
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.beginPath();
+            ctx.arc(pillX + 60 * scale, pillY + 40 * scale, 20 * scale, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Сохранение
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Генерация всех иконок по клику
+        let index = 0;
+        function generateNext() {
+            if (index < sizes.length) {
+                drawIcon(sizes[index]);
+                index++;
+                setTimeout(generateNext, 500);
+            } else {
+                console.log('Все иконки сгенерированы!');
+            }
+        }
+        
+        console.log('Нажмите Enter в консоли для генерации иконок');
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                index = 0;
+                generateNext();
+            }
+        });
+    </script>
+</body>
+</html>

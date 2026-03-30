@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Pill Quest Icons</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #FFB7B2; }
+        .icon { margin: 10px; display: inline-block; }
+        canvas { border: 1px solid #333; image-rendering: pixelated; }
+        .download-btn { display: block; margin: 10px 0; padding: 10px; background: #B5EAD7; border: 2px solid #333; cursor: pointer; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>🎨 Генератор иконок Pill Quest</h1>
+    <p>Нажмите "Сгенерировать все иконки", затем сохраните файлы в папку <code>icons/</code></p>
+    <button class="download-btn" onclick="generateAll()">📥 Сгенерировать все иконки</button>
+    <div id="icons"></div>
+
+    <script>
+        const sizes = [
+            { size: 72, name: 'icon-72x72.png' },
+            { size: 96, name: 'icon-96x96.png' },
+            { size: 128, name: 'icon-128x128.png' },
+            { size: 144, name: 'icon-144x144.png' },
+            { size: 152, name: 'icon-152x152.png' },
+            { size: 192, name: 'icon-192x192.png' },
+            { size: 384, name: 'icon-384x384.png' },
+            { size: 512, name: 'icon-512x512.png' }
+        ];
+
+        function drawIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+            
+            const s = size / 512; // scale factor
+            
+            // Градиентный фон
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#FFB7B2');
+            gradient.addColorStop(1, '#FF9AA2');
+            ctx.fillStyle = gradient;
+            
+            // Скруглённый прямоугольник фона
+            const radius = 64 * s;
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, radius);
+            ctx.fill();
+            
+            // Таблетка
+            const pillWidth = 272 * s;
+            const pillHeight = 112 * s;
+            const pillX = 120 * s;
+            const pillY = 200 * s;
+            const pillRadius = 56 * s;
+            
+            // Белая часть таблетки
+            ctx.fillStyle = '#FFFFFF';
+            ctx.strokeStyle = '#333333';
+            ctx.lineWidth = 8 * s;
+            
+            ctx.beginPath();
+            ctx.roundRect(pillX, pillY, pillWidth, pillHeight, pillRadius);
+            ctx.fill();
+            ctx.stroke();
+            
+            // Разделительная линия
+            ctx.beginPath();
+            ctx.moveTo(pillX + pillWidth / 2, pillY + pillRadius);
+            ctx.lineTo(pillX + pillWidth / 2, pillY + pillHeight - pillRadius);
+            ctx.stroke();
+            
+            // Блик
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.beginPath();
+            ctx.arc(pillX + 60 * s, pillY + 40 * s, 20 * s, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function downloadCanvas(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function generateAll() {
+            const container = document.getElementById('icons');
+            container.innerHTML = '';
+            
+            let index = 0;
+            
+            function processNext() {
+                if (index >= sizes.length) {
+                    alert('✅ Все иконки сгенерированы и загружены!');
+                    return;
+                }
+                
+                const { size, name } = sizes[index];
+                const canvas = document.createElement('canvas');
+                drawIcon(canvas, size);
+                
+                // Показываем превью
+                const div = document.createElement('div');
+                div.className = 'icon';
+                div.innerHTML = `<p>${name}</p>`;
+                canvas.style.width = '64px';
+                canvas.style.height = '64px';
+                div.appendChild(canvas);
+                container.appendChild(div);
+                
+                // Скачиваем
+                downloadCanvas(canvas, name);
+                
+                index++;
+                setTimeout(processNext, 300);
+            }
+            
+            processNext();
+        }
+    </script>
+</body>
+</html>

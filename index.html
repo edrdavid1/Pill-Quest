@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pill Quest</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pill Quest">
+    <meta name="theme-color" content="#FFB7B2">
+    <meta name="msapplication-TileColor" content="#FFB7B2">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+    <!-- Кнопка переключения темы -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Переключить тему">
+        🌙
+    </button>
+
+    <header>
+        <h1>Pill Quest</h1>
+        <p id="currentMonthYear"></p>
+    </header>
+
+    <!-- Уведомление о разрешении -->
+    <div id="notificationPrompt" class="notification-prompt">
+        <p>Включите уведомления, чтобы не забывать о таблетках!</p>
+        <button onclick="requestNotificationPermission()">Включить</button>
+        <button onclick="hideNotificationPrompt()">Позже</button>
+    </div>
+
+    <!-- Блок с картинкой -->
+    <div class="image-container">
+        <img id="statusImage" src="" alt="Status">
+    </div>
+
+    <!-- Кнопка приёма таблетки -->
+    <div class="pill-btn-container">
+        <button id="pillBtn" onclick="toggleTodayPill()">Выпить!</button>
+    </div>
+
+    <!-- Всплывающее сообщение -->
+    <div id="messagePopup" class="message-popup"></div>
+
+    <!-- Календарь -->
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button class="calendar-nav" id="prevMonth" onclick="changeMonth(-1)">◀</button>
+            <span id="calendarMonthYear"></span>
+            <button class="calendar-nav" onclick="changeMonth(1)">▶</button>
+        </div>
+        <div class="calendar-grid">
+            <div class="weekday">Пн</div><div class="weekday">Вт</div>
+            <div class="weekday">Ср</div><div class="weekday">Чт</div>
+            <div class="weekday">Пт</div><div class="weekday">Сб</div>
+            <div class="weekday">Вс</div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+
+    <!-- App Script -->
+    <script src="/app.js"></script>
+</body>
+</html>
