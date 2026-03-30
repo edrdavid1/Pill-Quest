@@ -45,7 +45,13 @@
       "Bash(mv *)",
       "Bash(git init)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git branch *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(npm init *)",
+      "Bash(npm install *)",
+      "Bash(node *)"
     ]
   },
   "$version": 3
